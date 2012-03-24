@@ -12,7 +12,6 @@ function __bunyan() {
   now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   level=$1
   shift 
- 
  	printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
   	"$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
 }
@@ -46,25 +45,25 @@ function __bunyanSetLevel() {
 
 
 function trace() { 
-  [[ __bunyanLevel -ge 10 ]] && __bunyan 10 "$@" 
+  [[ $__bunyanLevel -le 10 ]] &&  __bunyan 10 "$@" 
 }
 
 function debug() { 
-  [[ __bunyanLevel -ge 20 ]] && __bunyan 20 "$@" 
+  [[ $__bunyanLevel -le 20 ]] && __bunyan 20 "$@" 
 }
 
 function info()  { 
-  [[ __bunyanLevel -ge 30 ]] && __bunyan 30 "$@" 
+  [[ $__bunyanLevel -le 30 ]] && __bunyan 30 "$@" 
 }
 
 function warn()  { 
-  [[ __bunyanLevel -ge 40 ]] && __bunyan 40 "$@" 
+  [[ $__bunyanLevel -le 40 ]] && __bunyan 40 "$@" 
 }
 
 function error() { 
-  [[ __bunyanLevel -ge 50 ]] && __bunyan 50 "$@" 
+  [[ $__bunyanLevel -le 50 ]] && __bunyan 50 "$@" 
 }
 
 function fatal() { 
-  [[ __bunyanLevel -ge 60 ]] && __bunyan 60 "$@" 
+  [[ $__bunyanLevel -le 60 ]] && __bunyan 60 "$@" 
 }
