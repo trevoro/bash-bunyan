@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+version='0.1.0'
+
+__bunyanName=`basename $0`
+__bunyanHost=`hostname`
+
+function __bunyan() {
+  # arg 1 is LEVEL
+  # arg 2 is MSG
+  now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  level=$1
+  shift 
+ 
+ 	printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
+  	"$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
+}
+
+
+function trace() { 
+  __bunyan 10 "$@" 
+}
+
+function debug() { 
+  __bunyan 20 "$@" 
+}
+
+function info()  { 
+  __bunyan 30 "$@" 
+}
+
+function warn()  { 
+  __bunyan 40 "$@" 
+}
+
+function error() { 
+  __bunyan 50 "$@" 
+}
+
+function fatal() { 
+  __bunyan 60 "$@" 
+}
