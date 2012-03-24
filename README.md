@@ -7,7 +7,8 @@ file.
 
 ## Usage
 
-To use bash-bunyan in your bash script, source the 'bunyan' script
+To use bash-bunyan in your bash script, source the 'bunyan' script then use one
+of the level names to log directly.
 ex:
 
     $ cat example.sh
@@ -28,6 +29,22 @@ ex:
       "time": "2012-03-24T02:48:21Z",
       "v": 0
     }
+
+## Levels
+
+When you include bunyan you will automatically inherit functions which
+correspond to the log levels. These functions are
+
+ * trace (60): logging from external libraries
+ * debug (50): verbose debug information
+ * info  (40): detail on regular information
+ * warn  (30): something an operation should pay attention to
+ * error (20): fatal for a request / action
+ * fatal (10): the application exited because of some error
+
+To change the loglevel set the '\_\_bunyanLevel to the appropriate level you
+care about. Anything under that level will not be logged. By default, the level
+is set to 'info'.
 
 ## Settings
 
