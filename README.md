@@ -1,6 +1,6 @@
 # Bash-Bunyan
 
-This tool is based off trentms excellent node-bunyan utility. It's used for
+This tool is based off [trentms](http://github.com/trentm) excellent [node-bunyan](https://github.com/trentm/node-bunyan) utility. It's used for
 creating structured logs using the JSON format. The output is JSON which can be
 piped to either the 'bunyan' tool itself, or to another JSON parser or to a
 file.
