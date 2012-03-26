@@ -12,35 +12,35 @@ function __bunyan() {
   now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   level=$1
   shift 
- 	printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
-  	"$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
+  printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
+    "$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
 }
 
 function __bunyanSetLevel() {
   newlevel=$1
   case "$newlevel" in
-		trace)
-			__bunyanLevel=10
-			;;
-		debug)
-			__bunyanLevel=20
-			;;
-		info)
-			__bunyanLevel=30
-			;;
-		warn)
-			__bunyanLevel=40
-			;;
-		error)
-			__bunyanLevel=50
-			;;
-		fatal)
-			__bunyanLevel=60
-			;;
-		*)
-			printf "unknown log level '$1'\n" >&2
-			;;
-	esac
+    trace)
+      __bunyanLevel=10
+      ;;
+    debug)
+      __bunyanLevel=20
+      ;;
+    info)
+      __bunyanLevel=30
+      ;;
+    warn)
+      __bunyanLevel=40
+      ;;
+    error)
+      __bunyanLevel=50
+      ;;
+    fatal)
+      __bunyanLevel=60
+      ;;
+    *)
+      printf "unknown log level '$1'\n" >&2
+      ;;
+  esac
 }
 
 
