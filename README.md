@@ -50,8 +50,10 @@ is set to 'info'.
 ## Settings
 
 bash-bunyan doesn't have nearly the granularity of node-bunyan, but you can set
-the name of the process reported in bunyan by setting the '\_\_bunyanName'
-variable. This variable will be set automatically in your script when you source
+the name of the process reported in bunyan by setting:
+bunyanFields[name] 
+
+This variable will be set automatically in your script when you source
 the bunyan include file.
 ex:
 
@@ -59,8 +61,12 @@ ex:
     #!/usr/bin/bash
 
     . includes/bunyan
-    __bunyanName='super'
+    bunyanFields[name]+=super
     info 'hello world'
     ~
     $ sh example2.sh | bunyan
     [2012-03-24T02:47:15Z]  INFO: super/49105 on mac.local: hello world
+    
+Additional flags can also be set as seen in the example:
+
+bunyanFields[user]+=`whoami`
