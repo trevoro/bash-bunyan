@@ -1,4 +1,5 @@
 # Bash-Bunyan
+This version uses associative arrays and requires bash version 4
 
 This tool is based off [trentms](http://github.com/trentm) excellent [node-bunyan](https://github.com/trentm/node-bunyan) utility. It's used for
 creating structured logs using the JSON format. The output is JSON which can be
