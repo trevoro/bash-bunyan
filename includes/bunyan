@@ -2,8 +2,6 @@
 
 version='0.1.0'
 
-__bunyanName=`basename $0`
-__bunyanHost=`hostname`
 __bunyanLevel=30 # info
 
 declare -A bunyanFields
