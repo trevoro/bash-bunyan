@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. includes/bunyan2
+. includes/bunyan
 
 __bunyanSetLevel "trace"
 bunyanFields[user]+=`whoami`
