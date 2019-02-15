@@ -6,14 +6,24 @@ __bunyanName=`basename $0`
 __bunyanHost=`hostname`
 __bunyanLevel=30 # info
 
+declare -A bunyanFields
+bunyanFields[name]+=`basename $0`
+bunyanFields[hostname]+=`hostname`
+
 function __bunyan() {
   # arg 1 is LEVEL
   # arg 2 is MSG
   now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   level=$1
-  shift 
-  printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
-    "$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
+  shift
+
+  extra=""
+  for i in "${!bunyanFields[@]}"; do
+      extra+=$(printf \"%s\":\"%s\", $i ${bunyanFields[$i]})
+  done ;
+  printf "{$extra \"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
+     "$$" "$level" "$@" "$now"
+
 }
 
 function __bunyanSetLevel() {
