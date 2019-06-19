@@ -16,9 +16,7 @@ function __bunyan() {
   level=$1
   levelname=$2
 
-  echo $2
-  shift
-  shift
+  shift 2
 
   extra=""
   for i in "${!bunyanFields[@]}"; do
