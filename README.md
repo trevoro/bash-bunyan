@@ -36,12 +36,12 @@ ex:
 When you include bunyan you will automatically inherit functions which
 correspond to the log levels. These functions are
 
- * trace (60): logging from external libraries
- * debug (50): verbose debug information
- * info  (40): detail on regular information
+ * noset (0): logging from external libraries
+ * debug (10): verbose debug information
+ * info  (20): detail on regular information
  * warn  (30): something an operation should pay attention to
- * error (20): fatal for a request / action
- * fatal (10): the application exited because of some error
+ * error (40): fatal for a request / action
+ * critical (50): the application exited because of some error
 
 To change the loglevel set the '\_\_bunyanLevel to the appropriate level you
 care about. Anything under that level will not be logged. By default, the level
