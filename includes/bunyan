@@ -20,7 +20,7 @@ function __bunyan() {
 
   extra=""
   for i in "${!bunyanFields[@]}"; do
-      extra+=$(printf \"%s\":\"%s\", $i ${bunyanFields[$i]})
+      extra+=$(printf \"%s\":\"%s\", "$i" "${bunyanFields[$i]}")
   done ;
   printf "{$extra \"pid\":%s,\"level\":%d,\"levelname\":\"%s\", \"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
      "$$" "$level" "$levelname" "$@" "$now"
