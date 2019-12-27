@@ -2,40 +2,51 @@
 
 version='0.1.0'
 
-__bunyanName=`basename $0`
-__bunyanHost=`hostname`
-__bunyanLevel=30 # info
+__bunyanLevel=20 # info
+
+declare -A bunyanFields
+bunyanFields[name]+=`basename $0`
+bunyanFields[hostname]+=`hostname`
 
 function __bunyan() {
   # arg 1 is LEVEL
+  # arg 2 is LEVELNAME
   # arg 2 is MSG
   now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   level=$1
-  shift 
-  printf "{\"name\":\"%s\",\"hostname\":\"%s\",\"pid\":%s,\"level\":%d,\"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
-    "$__bunyanName" "$__bunyanHost" "$$" "$level" "$@" "$now"
+  levelname=$2
+
+  shift 2
+
+  extra=""
+  for i in "${!bunyanFields[@]}"; do
+      extra+=$(printf \"%s\":\"%s\", "$i" "${bunyanFields[$i]}")
+  done ;
+  printf "{$extra \"pid\":%s,\"level\":%d,\"levelname\":\"%s\", \"msg\":\"%s\",\"time\":\"%s\",\"v\":0}\n" \
+     "$$" "$level" "$levelname" "$@" "$now"
+
 }
 
 function __bunyanSetLevel() {
   newlevel=$1
   case "$newlevel" in
-    trace)
-      __bunyanLevel=10
+    noset)
+      __bunyanLevel=0
       ;;
     debug)
-      __bunyanLevel=20
+      __bunyanLevel=10
       ;;
     info)
-      __bunyanLevel=30
+      __bunyanLevel=20
       ;;
     warn)
-      __bunyanLevel=40
+      __bunyanLevel=30
       ;;
     error)
-      __bunyanLevel=50
+      __bunyanLevel=40
       ;;
-    fatal)
-      __bunyanLevel=60
+    critical)
+      __bunyanLevel=50
       ;;
     *)
       printf "unknown log level '$1'\n" >&2
@@ -44,26 +55,26 @@ function __bunyanSetLevel() {
 }
 
 
-function trace() { 
-  [[ $__bunyanLevel -le 10 ]] &&  __bunyan 10 "$@" 
+function noset() {
+  [[ $__bunyanLevel -le 10 ]] &&  __bunyan 0 NOTSET "$@"
 }
 
-function debug() { 
-  [[ $__bunyanLevel -le 20 ]] && __bunyan 20 "$@" 
+function debug() {
+  [[ $__bunyanLevel -le 20 ]] && __bunyan 10 DEBUG "$@"
 }
 
-function info()  { 
-  [[ $__bunyanLevel -le 30 ]] && __bunyan 30 "$@" 
+function info()  {
+  [[ $__bunyanLevel -le 30 ]] && __bunyan 20 INFO "$@"
 }
 
-function warn()  { 
-  [[ $__bunyanLevel -le 40 ]] && __bunyan 40 "$@" 
+function warn()  {
+  [[ $__bunyanLevel -le 40 ]] && __bunyan 30 WARNING "$@"
 }
 
-function error() { 
-  [[ $__bunyanLevel -le 50 ]] && __bunyan 50 "$@" 
+function error() {
+  [[ $__bunyanLevel -le 50 ]] && __bunyan 40 ERROR "$@"
 }
 
-function fatal() { 
-  [[ $__bunyanLevel -le 60 ]] && __bunyan 60 "$@" 
+function critical() {
+  [[ $__bunyanLevel -le 60 ]] && __bunyan 50 CRITICAL "$@"
 }
